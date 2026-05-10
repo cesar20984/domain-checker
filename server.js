@@ -23,15 +23,15 @@ let rdapBootstrapPromise;
 
 const pageCopy = {
   en: {
-    seoTitle: "Bulk Domain Availability Checker | Fast Domain Search Tool",
-    seoDescription: "Check domain availability in bulk across .com, .net, .org, .io and more. A fast, simple tool for founders, marketers and domain researchers.",
+    seoTitle: "lotdom.com | Bulk Domain Availability Checker",
+    seoDescription: "lotdom.com helps you check domain availability in bulk across .com, .net, .org, .io and more. Fast domain search for founders and marketers.",
     seoKeywords: "bulk domain checker, domain availability checker, bulk domain search, domain name checker, available domains, domain finder",
-    name: "Bulk Domain Availability Checker",
-    brandName: "Domain Checker",
+    name: "lotdom.com",
+    brandName: "lotdom.com",
     homeLink: "Home",
     eyebrow: "Bulk domain availability",
-    h1: "Bulk Domain Availability Checker",
-    intro: "Search one domain or paste a bulk list of names, pick the extensions you care about, and quickly see which domains are available.",
+    h1: "lotdom.com Bulk Domain Checker",
+    intro: "Use lotdom.com to search one domain or paste a bulk list of names, pick the extensions you care about, and quickly see which domains are available.",
     languageLabel: "Language",
     clearHistory: "Clear history",
     inputLabel: "Names or domains",
@@ -50,22 +50,22 @@ const pageCopy = {
     seoCopyOne: "This bulk domain availability checker is built for people who need to compare many domain name ideas quickly: founders naming a startup, marketers planning campaigns, agencies preparing client options, and domain researchers checking large lists.",
     seoCopyTwo: "Paste names on separate lines or separate them with commas. The tool automatically combines each name with your selected extensions, keeps your preferred TLDs in local storage, and lets you filter results to focus only on available domains.",
     seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Search history stays in your browser so repeated naming sessions are easier to review.",
-    footerTagline: "A simple bulk domain search tool for fast naming research.",
+    footerTagline: "lotdom.com is a simple bulk domain search tool for fast naming research.",
     footerAbout: "About",
     footerPrivacy: "Privacy",
     footerCookies: "Cookies",
     footerLegal: "Legal notice"
   },
   es: {
-    seoTitle: "Buscador de Dominios por Lotes | Bulk Domain Checker",
-    seoDescription: "Verifica dominios disponibles por lotes, en busqueda masiva o bulk para .com, .net, .org, .io y mas. Rapido, simple y gratis.",
+    seoTitle: "lotdom.com | Buscador de Dominios por Lotes",
+    seoDescription: "lotdom.com verifica dominios disponibles por lotes, en busqueda masiva o bulk para .com, .net, .org, .io y mas. Rapido y simple.",
     seoKeywords: "buscador de dominios por lotes, bulk domain checker, busqueda masiva de dominios, verificar dominios disponibles, disponibilidad de dominios, dominios disponibles",
-    name: "Buscador de Dominios por Lotes",
-    brandName: "Domain Checker",
+    name: "lotdom.com",
+    brandName: "lotdom.com",
     homeLink: "Inicio",
     eyebrow: "Disponibilidad de dominios por lotes",
-    h1: "Buscador de Dominios por Lotes",
-    intro: "Busca un dominio o pega una lista masiva de nombres, elige las terminaciones que te interesan y revisa rapidamente cuales estan disponibles. Tambien funciona como bulk domain checker para quienes buscan esa expresion.",
+    h1: "lotdom.com Buscador de Dominios por Lotes",
+    intro: "Usa lotdom.com para buscar un dominio o pegar una lista masiva de nombres, elegir terminaciones y revisar rapidamente cuales estan disponibles. Tambien funciona como bulk domain checker para quienes buscan esa expresion.",
     languageLabel: "Idioma",
     clearHistory: "Limpiar historial",
     inputLabel: "Nombres o dominios",
@@ -84,7 +84,7 @@ const pageCopy = {
     seoCopyOne: "Esta herramienta para verificar dominios por lotes esta pensada para personas que necesitan comparar muchas ideas rapido: fundadores buscando nombre para una startup, marketers preparando campanas, agencias creando opciones para clientes e investigadores de dominios.",
     seoCopyTwo: "Puedes usarla como buscador masivo de dominios, comprobador por lotes o bulk domain checker. Pega nombres en lineas separadas o separados por comas, y la herramienta combina cada nombre con las terminaciones seleccionadas.",
     seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto.",
-    footerTagline: "Una herramienta simple para buscar dominios por lotes, hacer busquedas masivas y acelerar investigaciones de nombres.",
+    footerTagline: "lotdom.com es una herramienta simple para buscar dominios por lotes, hacer busquedas masivas y acelerar investigaciones de nombres.",
     footerAbout: "Sobre nosotros",
     footerPrivacy: "Privacidad",
     footerCookies: "Cookies",
@@ -252,23 +252,23 @@ function getContentPage(lang, page) {
   const pages = {
     en: {
       about: {
-        title: "About This Bulk Domain Checker",
-        description: "Learn how this bulk domain availability checker helps founders, marketers and agencies search many domain ideas quickly.",
-        h1: "About This Bulk Domain Checker",
+        title: "About lotdom.com | Bulk Domain Checker",
+        description: "Learn how lotdom.com helps founders, marketers and agencies search many domain ideas quickly with bulk domain availability checks.",
+        h1: "About lotdom.com",
         body: [
-          ["What the tool does", "This website is a fast domain availability checker for people who need to research domain names in bulk. You can paste one name, many names, comma-separated ideas, or full domains, then select the extensions you want to compare."],
-          ["Who it is for", "It is designed for founders, creators, marketers, agencies, domain researchers and anyone building a shortlist of brand names. The goal is to make bulk domain search, batch domain checking and naming research simple, fast and easy to repeat."],
-          ["How it checks domains", "The tool uses public RDAP data and DNS fallback signals to classify domains as available, taken or uncertain. Your selected extensions, result filter and search history are stored locally in your browser to make repeat searches easier."],
-          ["Why it exists", "The site focuses on speed, clarity and repeatable domain research. It helps you move from a raw list of name ideas to a cleaner shortlist of available domains without opening many registrar tabs."]
+          ["What lotdom.com does", "lotdom.com is a fast domain availability checker for people who need to research domain names in bulk. You can paste one name, many names, comma-separated ideas, or full domains, then select the extensions you want to compare."],
+          ["Who it is for", "lotdom.com is designed for founders, creators, marketers, agencies, domain researchers and anyone building a shortlist of brand names. The goal is to make bulk domain search, batch domain checking and naming research simple, fast and easy to repeat."],
+          ["How it checks domains", "lotdom.com uses public RDAP data and DNS fallback signals to classify domains as available, taken or uncertain. Your selected extensions, result filter and search history are stored locally in your browser to make repeat searches easier."],
+          ["Why it exists", "lotdom.com focuses on speed, clarity and repeatable domain research. It helps you move from a raw list of name ideas to a cleaner shortlist of available domains without opening many registrar tabs."]
         ]
       },
       privacy: {
         title: "Privacy Policy",
-        description: "Privacy policy for the bulk domain checker, including local storage, server requests and contact information.",
+        description: "Privacy policy for lotdom.com, including local storage, server requests and contact information.",
         h1: "Privacy Policy",
         body: [
           ["Last updated", updated],
-          ["Controller", `The responsible operator of this website is ${legalOwner.name}, RUT ${legalOwner.rut}, with address at ${legalOwner.address}. Contact phone: ${legalOwner.phone}.`],
+          ["Controller", `The responsible operator of lotdom.com is ${legalOwner.name}, RUT ${legalOwner.rut}, with address at ${legalOwner.address}. Contact phone: ${legalOwner.phone}.`],
           ["Data processed", "The tool may process the domain names you submit, technical request data such as IP address, browser and server logs, and local preferences stored in your browser. The search history is stored in localStorage on your device unless a future account feature is added."],
           ["Purpose", "Data is used to provide the domain availability checker, maintain security, prevent abuse, improve reliability and remember local preferences such as selected TLDs, language, filters and history."],
           ["Legal basis", "Processing is based on the user's request to use the tool, legitimate interest in operating and securing the website, and applicable privacy rules, including Chilean personal data regulations where relevant."],
@@ -280,7 +280,7 @@ function getContentPage(lang, page) {
       },
       cookies: {
         title: "Cookie Policy",
-        description: "Cookie policy explaining localStorage, browser preferences and tracking choices for the bulk domain checker.",
+        description: "Cookie policy explaining localStorage, browser preferences and tracking choices for lotdom.com.",
         h1: "Cookie Policy",
         body: [
           ["Last updated", updated],
@@ -293,11 +293,11 @@ function getContentPage(lang, page) {
       },
       legal: {
         title: "Legal Notice",
-        description: "Legal notice and terms of use for the bulk domain availability checker.",
+        description: "Legal notice and terms of use for lotdom.com.",
         h1: "Legal Notice",
         body: [
           ["Site operator", `${legalOwner.name}, RUT ${legalOwner.rut}, address: ${legalOwner.address}. Phone: ${legalOwner.phone}.`],
-          ["Purpose of the website", "This website provides a free domain availability checker for individual and bulk searches across selected domain extensions."],
+          ["Purpose of the website", "lotdom.com provides a free domain availability checker for individual and bulk searches across selected domain extensions."],
           ["No guarantee of registration", "Availability results are informational. Domain availability can change at any time and may vary by registry, registrar, premium pricing rules, reserved names, restrictions or temporary RDAP/DNS errors. A domain should be considered secured only after successful registration with an accredited registrar."],
           ["Acceptable use", "Users must not overload, abuse, scrape aggressively, interfere with, reverse engineer or use the service for unlawful purposes. The operator may limit or block traffic that affects stability or violates reasonable use."],
           ["External services", "The tool may query public RDAP and DNS services operated by third parties. The operator is not responsible for outages, rate limits, incorrect data or policies of those third-party services."],
@@ -308,23 +308,23 @@ function getContentPage(lang, page) {
     },
     es: {
       about: {
-        title: "Sobre Nosotros | Buscador de Dominios por Lotes",
-        description: "Conoce como funciona esta herramienta para buscar dominios por lotes, hacer busquedas masivas y verificar dominios disponibles.",
-        h1: "Sobre Nosotros",
+        title: "Sobre lotdom.com | Buscador de Dominios por Lotes",
+        description: "Conoce como lotdom.com permite buscar dominios por lotes, hacer busquedas masivas y verificar dominios disponibles.",
+        h1: "Sobre lotdom.com",
         body: [
-          ["Que hace la herramienta", "Este sitio es un buscador de dominios por lotes para personas que necesitan investigar muchas ideas de nombres rapidamente. Puedes pegar un nombre, una lista masiva, ideas separadas por comas o dominios completos, y comparar varias terminaciones."],
-          ["Para quien es", "Esta pensado para fundadores, emprendedores, marketers, agencias, creadores e investigadores de dominios. Sirve como verificador de dominios masivo, comprobador por lotes y bulk domain checker cuando quieres revisar muchas alternativas sin hacerlo una por una."],
-          ["Como verifica dominios", "La herramienta usa datos publicos RDAP y senales DNS de respaldo para clasificar dominios como disponibles, ocupados o inciertos. Tus terminaciones seleccionadas, filtros e historial se guardan localmente en tu navegador."],
-          ["Por que existe", "El sitio prioriza velocidad, claridad y un flujo repetible de investigacion de dominios. Ayuda a pasar de una lista de ideas de nombres a una seleccion mas clara de dominios disponibles sin abrir muchos registradores."]
+          ["Que hace lotdom.com", "lotdom.com es un buscador de dominios por lotes para personas que necesitan investigar muchas ideas de nombres rapidamente. Puedes pegar un nombre, una lista masiva, ideas separadas por comas o dominios completos, y comparar varias terminaciones."],
+          ["Para quien es", "lotdom.com esta pensado para fundadores, emprendedores, marketers, agencias, creadores e investigadores de dominios. Sirve como verificador de dominios masivo, comprobador por lotes y bulk domain checker cuando quieres revisar muchas alternativas sin hacerlo una por una."],
+          ["Como verifica dominios", "lotdom.com usa datos publicos RDAP y senales DNS de respaldo para clasificar dominios como disponibles, ocupados o inciertos. Tus terminaciones seleccionadas, filtros e historial se guardan localmente en tu navegador."],
+          ["Por que existe", "lotdom.com prioriza velocidad, claridad y un flujo repetible de investigacion de dominios. Ayuda a pasar de una lista de ideas de nombres a una seleccion mas clara de dominios disponibles sin abrir muchos registradores."]
         ]
       },
       privacy: {
         title: "Politica de Privacidad",
-        description: "Politica de privacidad del buscador de dominios por lotes, incluyendo localStorage, consultas al servidor y datos de contacto.",
+        description: "Politica de privacidad de lotdom.com, incluyendo localStorage, consultas al servidor y datos de contacto.",
         h1: "Politica de Privacidad",
         body: [
           ["Ultima actualizacion", updated],
-          ["Responsable", `El responsable de este sitio web es ${legalOwner.name}, RUT ${legalOwner.rut}, con domicilio en ${legalOwner.address}. Telefono de contacto: ${legalOwner.phone}.`],
+          ["Responsable", `El responsable de lotdom.com es ${legalOwner.name}, RUT ${legalOwner.rut}, con domicilio en ${legalOwner.address}. Telefono de contacto: ${legalOwner.phone}.`],
           ["Datos tratados", "La herramienta puede tratar los dominios o nombres que ingresas, datos tecnicos de solicitud como direccion IP, navegador y registros del servidor, y preferencias locales guardadas en tu navegador. El historial de busquedas se guarda en localStorage en tu dispositivo."],
           ["Finalidad", "Los datos se usan para prestar la herramienta de verificacion de dominios, mantener seguridad, prevenir abuso, mejorar estabilidad y recordar preferencias como TLDs seleccionados, idioma, filtros e historial local."],
           ["Base y normativa", "El tratamiento se basa en la solicitud del usuario al usar la herramienta, el interes legitimo de operar y proteger el sitio, y la normativa aplicable sobre datos personales en Chile, incluyendo la Ley 19.628 y sus modificaciones cuando corresponda."],
@@ -336,7 +336,7 @@ function getContentPage(lang, page) {
       },
       cookies: {
         title: "Politica de Cookies",
-        description: "Politica de cookies y almacenamiento local del buscador de dominios por lotes.",
+        description: "Politica de cookies y almacenamiento local de lotdom.com.",
         h1: "Politica de Cookies",
         body: [
           ["Ultima actualizacion", updated],
@@ -349,11 +349,11 @@ function getContentPage(lang, page) {
       },
       legal: {
         title: "Aviso Legal",
-        description: "Aviso legal y condiciones basicas de uso del buscador de dominios por lotes.",
+        description: "Aviso legal y condiciones basicas de uso de lotdom.com.",
         h1: "Aviso Legal",
         body: [
           ["Titular del sitio", `${legalOwner.name}, RUT ${legalOwner.rut}, domicilio: ${legalOwner.address}. Telefono: ${legalOwner.phone}.`],
-          ["Objeto del sitio", "Este sitio ofrece una herramienta gratuita para verificar disponibilidad de dominios en busquedas individuales, por lotes, busqueda masiva o bulk, usando las terminaciones seleccionadas por el usuario."],
+          ["Objeto del sitio", "lotdom.com ofrece una herramienta gratuita para verificar disponibilidad de dominios en busquedas individuales, por lotes, busqueda masiva o bulk, usando las terminaciones seleccionadas por el usuario."],
           ["Sin garantia de registro", "Los resultados son informativos. La disponibilidad de un dominio puede cambiar en cualquier momento y depender del registro, registrador, reglas de dominios premium, nombres reservados, restricciones o errores temporales de RDAP/DNS. Un dominio solo debe considerarse asegurado cuando se registra correctamente con un registrador acreditado."],
           ["Uso aceptable", "No esta permitido sobrecargar, abusar, automatizar agresivamente, interferir, descompilar o usar el servicio para fines ilicitos. El operador puede limitar o bloquear trafico que afecte la estabilidad o incumpla un uso razonable."],
           ["Servicios externos", "La herramienta puede consultar servicios RDAP y DNS publicos operados por terceros. El operador no es responsable por caidas, limites, datos incorrectos o politicas de esos terceros."],
@@ -414,13 +414,16 @@ function renderContentPage(route, req) {
     <link rel="alternate" hreflang="es-MX" href="${escapeHtml(canonicalUrl)}">
     <link rel="alternate" hreflang="es-ES" href="${escapeHtml(canonicalUrl)}">` : ""}
     <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
-    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/logo.svg" type="image/svg+xml">
+    <link rel="alternate icon" href="/favicon.ico" sizes="any">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <nav class="site-nav" aria-label="Main navigation">
       <div class="nav-inner">
-        <a class="brand" href="${homeUrl}">${escapeHtml(copy.brandName)}</a>
+        <a class="brand" href="${homeUrl}" aria-label="lotdom.com home">
+          <img src="/logo.svg" alt="lotdom.com" width="169" height="40">
+        </a>
         <div class="nav-actions">
           <a class="nav-link" href="${homeUrl}">${escapeHtml(copy.homeLink)}</a>
           <a class="nav-link" href="${lang === "es" ? routeInfo.alternate : routeInfo.alternate}">${lang === "es" ? "English" : "Español"}</a>

@@ -1,6 +1,6 @@
-# Domain Checker
+# lotdom.com
 
-App web minimalista para revisar si dominios estan disponibles usando RDAP gratis, sin API key.
+App web minimalista para revisar si dominios estan disponibles por lotes usando RDAP gratis, sin API key.
 
 ## Uso
 
