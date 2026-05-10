@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="__LANG__">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>__SEO_TITLE__</title>
+    <meta name="description" content="__SEO_DESCRIPTION__">
+    <meta name="keywords" content="__SEO_KEYWORDS__">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="__CANONICAL_URL__">
+    <link rel="alternate" hreflang="en" href="__BASE_URL__/">
+    <link rel="alternate" hreflang="es" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="es-CL" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="es-MX" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="es-ES" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="es-CO" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="es-AR" href="__BASE_URL__/es">
+    <link rel="alternate" hreflang="x-default" href="__BASE_URL__/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="__SEO_TITLE__">
+    <meta property="og:description" content="__SEO_DESCRIPTION__">
+    <meta property="og:url" content="__CANONICAL_URL__">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">__SCHEMA_JSON__</script>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Main navigation">
+      <div class="nav-inner">
+        <a class="brand" href="__HOME_URL__" data-i18n="brandName">__BRAND_NAME__</a>
+        <div class="nav-actions">
+          <a class="nav-link" href="__HOME_URL__" id="homeLink" data-i18n="homeLink">__HOME_LINK__</a>
+          <label class="language-picker">
+            <span data-i18n="languageLabel">__LANGUAGE_LABEL__</span>
+            <select id="languageSelect" aria-label="Language selector">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </nav>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">__EYEBROW__</p>
+          <h1><a href="__HOME_URL__" id="heroHomeLink" data-i18n="h1">__H1__</a></h1>
+          <p class="intro" data-i18n="intro">__INTRO__</p>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-button" id="clearHistoryButton" type="button" data-i18n="clearHistory">__CLEAR_HISTORY__</button>
+        </div>
+      </header>
+
+      <section class="panel search-panel" aria-labelledby="tool-title">
+        <label class="field-label" for="domainInput" id="tool-title" data-i18n="inputLabel">__INPUT_LABEL__</label>
+        <textarea id="domainInput" rows="5" spellcheck="false" placeholder="__PLACEHOLDER__"></textarea>
+        <div class="helper-row">
+          <span data-i18n="inputHelp">__INPUT_HELP__</span>
+          <span id="previewCount">0 domains</span>
+        </div>
+
+        <div class="section-head">
+          <h2 data-i18n="tldsTitle">__TLDS_TITLE__</h2>
+          <button class="text-button" id="resetTldsButton" type="button" data-i18n="resetTlds">__RESET_TLDS__</button>
+        </div>
+        <div class="tld-grid" id="tldGrid" aria-label="Domain extensions"></div>
+
+        <div class="actions">
+          <button class="primary-button" id="checkButton" type="button" data-i18n="checkButton">__CHECK_BUTTON__</button>
+          <button class="ghost-button" id="clearButton" type="button" data-i18n="clearButton">__CLEAR_BUTTON__</button>
+        </div>
+      </section>
+
+      <section class="layout">
+        <section class="panel">
+          <div class="section-head">
+            <h2 data-i18n="resultsTitle">__RESULTS_TITLE__</h2>
+            <div class="result-tools">
+              <label class="toggle">
+                <input id="availableOnlyToggle" type="checkbox">
+                <span data-i18n="availableOnly">__AVAILABLE_ONLY__</span>
+              </label>
+              <span id="statusText" data-i18n="ready">__READY__</span>
+            </div>
+          </div>
+          <div class="results" id="results"></div>
+        </section>
+
+        <aside class="panel history-panel">
+          <div class="section-head">
+            <h2 data-i18n="historyTitle">__HISTORY_TITLE__</h2>
+            <span id="historyCount">0</span>
+          </div>
+          <div class="history" id="history"></div>
+        </aside>
+      </section>
+
+      <section class="seo-content" aria-labelledby="seo-title">
+        <div>
+          <p class="eyebrow" data-i18n="seoEyebrow">__SEO_EYEBROW__</p>
+          <h2 id="seo-title" data-i18n="seoHeading">__SEO_HEADING__</h2>
+        </div>
+        <div class="seo-grid">
+          <p data-i18n="seoCopyOne">__SEO_COPY_ONE__</p>
+          <p data-i18n="seoCopyTwo">__SEO_COPY_TWO__</p>
+          <p data-i18n="seoCopyThree">__SEO_COPY_THREE__</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span data-i18n="footerTagline">__FOOTER_TAGLINE__</span>
+        <nav aria-label="Footer">
+          <a href="/" hreflang="en">English</a>
+          <a href="/es" hreflang="es">Español</a>
+          <a href="__ABOUT_URL__" id="footerAboutLink" data-i18n="footerAbout">__FOOTER_ABOUT__</a>
+          <a href="__PRIVACY_URL__" id="footerPrivacyLink" data-i18n="footerPrivacy">__FOOTER_PRIVACY__</a>
+          <a href="__COOKIES_URL__" id="footerCookiesLink" data-i18n="footerCookies">__FOOTER_COOKIES__</a>
+          <a href="__LEGAL_URL__" id="footerLegalLink" data-i18n="footerLegal">__FOOTER_LEGAL__</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      window.__INITIAL_LANG__ = "__LANG__";
+    </script>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
