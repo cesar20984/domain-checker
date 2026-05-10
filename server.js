@@ -110,6 +110,19 @@ const contentRoutes = {
   "/es/aviso-legal": { lang: "es", page: "legal", alternate: "/legal" }
 };
 
+const sitemapRoutes = [
+  { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/es", priority: "1.0", changefreq: "weekly" },
+  { path: "/about", priority: "0.6", changefreq: "monthly" },
+  { path: "/privacy", priority: "0.4", changefreq: "yearly" },
+  { path: "/cookies", priority: "0.4", changefreq: "yearly" },
+  { path: "/legal", priority: "0.4", changefreq: "yearly" },
+  { path: "/es/sobre-nosotros", priority: "0.6", changefreq: "monthly" },
+  { path: "/es/privacidad", priority: "0.4", changefreq: "yearly" },
+  { path: "/es/cookies", priority: "0.4", changefreq: "yearly" },
+  { path: "/es/aviso-legal", priority: "0.4", changefreq: "yearly" }
+];
+
 function sendJson(res, status, payload) {
   const body = JSON.stringify(payload);
   res.writeHead(status, {
@@ -121,7 +134,33 @@ function sendJson(res, status, payload) {
 
 function getBaseUrl(req) {
   const proto = req.headers["x-forwarded-proto"] || "http";
-  return `${proto}://${req.headers.host}`;
+  const host = req.headers["x-forwarded-host"] || req.headers.host;
+  return `${proto}://${host}`;
+}
+
+function escapeXml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function renderSitemap(req) {
+  const baseUrl = getBaseUrl(req);
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const urls = sitemapRoutes.map((route) => `  <url>
+    <loc>${escapeXml(`${baseUrl}${route.path}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`).join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
 }
 
 function escapeHtml(value) {
@@ -640,6 +679,20 @@ async function serveStatic(req, res) {
 const server = http.createServer((req, res) => {
   if (req.method === "POST" && req.url === "/api/check") {
     handleCheck(req, res);
+    return;
+  }
+
+  if ((req.method === "GET" || req.method === "HEAD") && req.url === "/sitemap.xml") {
+    const sitemap = renderSitemap(req);
+    res.writeHead(200, {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Content-Length": Buffer.byteLength(sitemap)
+    });
+    if (req.method === "HEAD") {
+      res.end();
+      return;
+    }
+    res.end(sitemap);
     return;
   }
 
