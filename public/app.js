@@ -43,6 +43,7 @@ const I18N = {
     resultsTitle: "Results",
     availableOnly: "Only available",
     ready: "Ready",
+    savedTitle: "Saved",
     historyTitle: "History",
     seoEyebrow: "Fast research workflow",
     seoHeading: "Find available domains from a bulk list",
@@ -58,7 +59,10 @@ const I18N = {
     domainPlural: "domains",
     noResults: "Results will appear here.",
     noAvailable: "No available domains in these results.",
+    emptySaved: "No saved searches yet.",
     emptyHistory: "No searches yet.",
+    saveHistoryItem: "Save search",
+    savedHistoryItem: "Saved",
     deleteHistoryItem: "Delete search",
     consulting: "Checking RDAP",
     invalidInput: "Add at least one valid name",
@@ -90,6 +94,7 @@ const I18N = {
     resultsTitle: "Resultados",
     availableOnly: "Solo disponibles",
     ready: "Listo",
+    savedTitle: "Guardadas",
     historyTitle: "Historial",
     seoEyebrow: "Flujo rapido de investigacion",
     seoHeading: "Encuentra dominios disponibles desde una lista por lotes",
@@ -105,7 +110,10 @@ const I18N = {
     domainPlural: "dominios",
     noResults: "Los resultados apareceran aqui.",
     noAvailable: "No hay dominios disponibles en estos resultados.",
+    emptySaved: "Sin busquedas guardadas.",
     emptyHistory: "Sin busquedas todavia.",
+    saveHistoryItem: "Guardar busqueda",
+    savedHistoryItem: "Guardada",
     deleteHistoryItem: "Borrar busqueda",
     consulting: "Consultando RDAP",
     invalidInput: "Agrega al menos un nombre valido",
@@ -121,6 +129,7 @@ const I18N = {
 const storageKeys = {
   tlds: "domainChecker:selectedTlds",
   history: "domainChecker:history",
+  savedSearches: "domainChecker:savedSearches",
   availableOnly: "domainChecker:availableOnly"
 };
 
@@ -129,6 +138,7 @@ const state = {
   selectedTlds: loadSelectedTlds(),
   availableOnly: loadAvailableOnly(),
   history: loadHistory(),
+  savedSearches: loadSavedSearches(),
   results: []
 };
 
@@ -143,6 +153,8 @@ const elements = {
   languageSelect: document.querySelector("#languageSelect"),
   clearHistoryButton: document.querySelector("#clearHistoryButton"),
   results: document.querySelector("#results"),
+  savedSearches: document.querySelector("#savedSearches"),
+  savedCount: document.querySelector("#savedCount"),
   history: document.querySelector("#history"),
   historyCount: document.querySelector("#historyCount"),
   statusText: document.querySelector("#statusText"),
@@ -170,6 +182,14 @@ function loadHistory() {
   return [];
 }
 
+function loadSavedSearches() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(storageKeys.savedSearches));
+    return Array.isArray(stored) ? stored : [];
+  } catch {}
+  return [];
+}
+
 function loadAvailableOnly() {
   return localStorage.getItem(storageKeys.availableOnly) === "true";
 }
@@ -184,6 +204,10 @@ function saveAvailableOnly() {
 
 function saveHistory() {
   localStorage.setItem(storageKeys.history, JSON.stringify(state.history));
+}
+
+function saveSavedSearches() {
+  localStorage.setItem(storageKeys.savedSearches, JSON.stringify(state.savedSearches));
 }
 
 function t(key) {
@@ -291,25 +315,37 @@ function renderResults() {
 }
 
 function renderHistory() {
+  elements.savedCount.textContent = state.savedSearches.length;
   elements.historyCount.textContent = state.history.length;
+  elements.savedSearches.innerHTML = renderSearchItems(state.savedSearches, "saved", t("emptySaved"));
+  elements.history.innerHTML = renderSearchItems(state.history, "history", t("emptyHistory"));
+}
 
-  if (!state.history.length) {
-    elements.history.innerHTML = `<div class="empty">${escapeHtml(t("emptyHistory"))}</div>`;
-    return;
-  }
+function renderSearchItems(entries, listName, emptyText) {
+  if (!entries.length) return `<div class="empty">${escapeHtml(emptyText)}</div>`;
 
-  elements.history.innerHTML = state.history.map((entry, index) => `
+  return entries.map((entry, index) => {
+    const isSaved = isSearchSaved(entry);
+    const saveControl = listName === "history"
+      ? `<button class="history-save" type="button" data-list="${listName}" data-index="${index}" aria-label="${escapeHtml(t("saveHistoryItem"))}" title="${escapeHtml(t("saveHistoryItem"))}" ${isSaved ? "disabled" : ""}>${escapeHtml(isSaved ? t("savedHistoryItem") : t("saveHistoryItem"))}</button>`
+      : "";
+
+    return `
     <div class="history-item">
-      <button class="history-restore" type="button" data-index="${index}">
+      <button class="history-restore" type="button" data-list="${listName}" data-index="${index}">
         <span class="history-meta">
           <span class="history-title">${escapeHtml(entry.query)}</span>
           <span class="history-subtitle">${entry.count} ${entry.count === 1 ? t("domainSingular") : t("domainPlural")} - ${escapeHtml(entry.tlds.map((tld) => `.${tld}`).join(", "))}</span>
         </span>
         <span class="history-subtitle">${escapeHtml(entry.date)}</span>
       </button>
-      <button class="history-delete" type="button" data-index="${index}" aria-label="${escapeHtml(t("deleteHistoryItem"))}" title="${escapeHtml(t("deleteHistoryItem"))}">x</button>
+      <span class="history-actions">
+        ${saveControl}
+        <button class="history-delete" type="button" data-list="${listName}" data-index="${index}" aria-label="${escapeHtml(t("deleteHistoryItem"))}" title="${escapeHtml(t("deleteHistoryItem"))}">x</button>
+      </span>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function setLoading(isLoading) {
@@ -351,6 +387,52 @@ function addToHistory(domains) {
   state.history = [entry, ...state.history].slice(0, 30);
   saveHistory();
   renderHistory();
+}
+
+function getSearchKey(entry) {
+  return JSON.stringify({
+    input: entry.input,
+    tlds: entry.tlds,
+    count: entry.count
+  });
+}
+
+function isSearchSaved(entry) {
+  const key = getSearchKey(entry);
+  return state.savedSearches.some((savedEntry) => getSearchKey(savedEntry) === key);
+}
+
+function getSearchList(listName) {
+  return listName === "saved" ? state.savedSearches : state.history;
+}
+
+function saveSearch(entry) {
+  if (isSearchSaved(entry)) return;
+  state.savedSearches = [{ ...entry }, ...state.savedSearches].slice(0, 30);
+  saveSavedSearches();
+  renderHistory();
+}
+
+function deleteSearch(listName, index) {
+  const list = getSearchList(listName);
+  list.splice(index, 1);
+  if (listName === "saved") {
+    saveSavedSearches();
+  } else {
+    saveHistory();
+  }
+  renderHistory();
+}
+
+function restoreSearch(entry) {
+  elements.domainInput.value = entry.input;
+  state.selectedTlds = entry.tlds;
+  state.results = entry.results || [];
+  saveSelectedTlds();
+  renderTlds();
+  renderPreviewCount();
+  renderResults();
+  elements.statusText.textContent = `${state.results.length} ${t("restored")}`;
 }
 
 async function checkDomains() {
@@ -431,29 +513,34 @@ elements.clearHistoryButton.addEventListener("click", () => {
   renderHistory();
 });
 elements.history.addEventListener("click", (event) => {
+  handleSearchListClick(event);
+});
+elements.savedSearches.addEventListener("click", (event) => {
+  handleSearchListClick(event);
+});
+
+function handleSearchListClick(event) {
+  const saveButton = event.target.closest(".history-save");
+  if (saveButton) {
+    const entry = getSearchList(saveButton.dataset.list)[Number(saveButton.dataset.index)];
+    if (entry) saveSearch(entry);
+    return;
+  }
+
   const deleteButton = event.target.closest(".history-delete");
   if (deleteButton) {
     const index = Number(deleteButton.dataset.index);
     if (!Number.isInteger(index)) return;
-    state.history.splice(index, 1);
-    saveHistory();
-    renderHistory();
+    deleteSearch(deleteButton.dataset.list, index);
     return;
   }
 
   const item = event.target.closest(".history-restore");
   if (!item) return;
-  const entry = state.history[Number(item.dataset.index)];
+  const entry = getSearchList(item.dataset.list)[Number(item.dataset.index)];
   if (!entry) return;
-  elements.domainInput.value = entry.input;
-  state.selectedTlds = entry.tlds;
-  state.results = entry.results || [];
-  saveSelectedTlds();
-  renderTlds();
-  renderPreviewCount();
-  renderResults();
-  elements.statusText.textContent = `${state.results.length} ${t("restored")}`;
-});
+  restoreSearch(entry);
+}
 
 renderTlds();
 elements.availableOnlyToggle.checked = state.availableOnly;

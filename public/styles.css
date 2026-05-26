@@ -329,6 +329,15 @@ textarea:focus {
   gap: 8px;
 }
 
+.saved-searches {
+  margin-bottom: 16px;
+}
+
+.recent-head {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
 .empty {
   padding: 24px;
   border: 1px dashed var(--line);
@@ -394,19 +403,47 @@ textarea:focus {
   text-align: left;
 }
 
+.history-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-save,
+.history-delete {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.history-save {
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.history-save:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
 .history-delete {
   display: inline-grid;
   flex: 0 0 32px;
   width: 32px;
   height: 32px;
   place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--soft);
-  color: var(--muted);
-  cursor: pointer;
-  font-weight: 800;
-  line-height: 1;
+}
+
+.history-save:hover:not(:disabled),
+.history-save:focus-visible:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-dark);
 }
 
 .history-delete:hover,
