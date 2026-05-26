@@ -59,6 +59,7 @@ const I18N = {
     noResults: "Results will appear here.",
     noAvailable: "No available domains in these results.",
     emptyHistory: "No searches yet.",
+    deleteHistoryItem: "Delete search",
     consulting: "Checking RDAP",
     invalidInput: "Add at least one valid name",
     checkedCount: "checked",
@@ -105,6 +106,7 @@ const I18N = {
     noResults: "Los resultados apareceran aqui.",
     noAvailable: "No hay dominios disponibles en estos resultados.",
     emptyHistory: "Sin busquedas todavia.",
+    deleteHistoryItem: "Borrar busqueda",
     consulting: "Consultando RDAP",
     invalidInput: "Agrega al menos un nombre valido",
     checkedCount: "revisados",
@@ -297,13 +299,16 @@ function renderHistory() {
   }
 
   elements.history.innerHTML = state.history.map((entry, index) => `
-    <button class="history-item" type="button" data-index="${index}">
-      <span class="history-meta">
-        <span class="history-title">${escapeHtml(entry.query)}</span>
-        <span class="history-subtitle">${entry.count} dominios - ${escapeHtml(entry.tlds.map((tld) => `.${tld}`).join(", "))}</span>
-      </span>
-      <span class="history-subtitle">${escapeHtml(entry.date)}</span>
-    </button>
+    <div class="history-item">
+      <button class="history-restore" type="button" data-index="${index}">
+        <span class="history-meta">
+          <span class="history-title">${escapeHtml(entry.query)}</span>
+          <span class="history-subtitle">${entry.count} ${entry.count === 1 ? t("domainSingular") : t("domainPlural")} - ${escapeHtml(entry.tlds.map((tld) => `.${tld}`).join(", "))}</span>
+        </span>
+        <span class="history-subtitle">${escapeHtml(entry.date)}</span>
+      </button>
+      <button class="history-delete" type="button" data-index="${index}" aria-label="${escapeHtml(t("deleteHistoryItem"))}" title="${escapeHtml(t("deleteHistoryItem"))}">x</button>
+    </div>
   `).join("");
 }
 
@@ -426,7 +431,17 @@ elements.clearHistoryButton.addEventListener("click", () => {
   renderHistory();
 });
 elements.history.addEventListener("click", (event) => {
-  const item = event.target.closest(".history-item");
+  const deleteButton = event.target.closest(".history-delete");
+  if (deleteButton) {
+    const index = Number(deleteButton.dataset.index);
+    if (!Number.isInteger(index)) return;
+    state.history.splice(index, 1);
+    saveHistory();
+    renderHistory();
+    return;
+  }
+
+  const item = event.target.closest(".history-restore");
   if (!item) return;
   const entry = state.history[Number(item.dataset.index)];
   if (!entry) return;
