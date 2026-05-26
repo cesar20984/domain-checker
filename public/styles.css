@@ -329,10 +329,12 @@ textarea:focus {
   gap: 8px;
 }
 
+.saved-domains,
 .saved-searches {
   margin-bottom: 16px;
 }
 
+.saved-searches-head,
 .recent-head {
   padding-top: 12px;
   border-top: 1px solid var(--line);
@@ -382,12 +384,44 @@ textarea:focus {
   color: var(--unknown);
 }
 
+.result-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-domain {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+  background: var(--soft);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.save-domain:hover:not(:disabled),
+.save-domain:focus-visible:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+
+.save-domain:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
 .history-item {
   align-items: flex-start;
   gap: 8px;
   padding: 6px;
 }
 
+.domain-restore,
 .history-restore {
   display: flex;
   flex: 1 1 auto;

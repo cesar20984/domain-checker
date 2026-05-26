@@ -44,13 +44,14 @@ const pageCopy = {
     resultsTitle: "Results",
     availableOnly: "Only available",
     ready: "Ready",
+    savedDomainsTitle: "Saved domains",
     savedTitle: "Saved",
     historyTitle: "History",
     seoEyebrow: "Fast research workflow",
     seoHeading: "Find available domains from a bulk list",
     seoCopyOne: "This bulk domain availability checker is built for people who need to compare many domain name ideas quickly: founders naming a startup, marketers planning campaigns, agencies preparing client options, and domain researchers checking large lists.",
     seoCopyTwo: "Paste names on separate lines or separate them with commas. The tool automatically combines each name with your selected extensions, keeps your preferred TLDs in local storage, and lets you filter results to focus only on available domains.",
-    seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Recent searches stay in your browser, can be deleted one by one, and important searches can be saved above the recent list for easier repeat research.",
+    seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Recent searches stay in your browser, can be deleted one by one, individual domains can be saved from results, and important searches can be saved above the recent list for easier repeat research.",
     footerTagline: "lotdom.com is a simple bulk domain search tool for fast naming research.",
     footerAbout: "About",
     footerPrivacy: "Privacy",
@@ -79,13 +80,14 @@ const pageCopy = {
     resultsTitle: "Resultados",
     availableOnly: "Solo disponibles",
     ready: "Listo",
+    savedDomainsTitle: "Dominios guardados",
     savedTitle: "Guardadas",
     historyTitle: "Historial",
     seoEyebrow: "Flujo rapido de investigacion",
     seoHeading: "Encuentra dominios disponibles desde una lista por lotes",
     seoCopyOne: "Esta herramienta para verificar dominios por lotes esta pensada para personas que necesitan comparar muchas ideas rapido: fundadores buscando nombre para una startup, marketers preparando campanas, agencias creando opciones para clientes e investigadores de dominios.",
     seoCopyTwo: "Puedes usarla como buscador masivo de dominios, comprobador por lotes o bulk domain checker. Pega nombres en lineas separadas o separados por comas, y la herramienta combina cada nombre con las terminaciones seleccionadas.",
-    seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto. Las busquedas recientes se guardan en tu navegador, pueden borrarse una por una y las mas importantes se pueden guardar encima del historial reciente.",
+    seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto. Las busquedas recientes se guardan en tu navegador, pueden borrarse una por una, los dominios individuales pueden guardarse desde los resultados y las busquedas importantes se pueden guardar encima del historial reciente.",
     footerTagline: "lotdom.com es una herramienta simple para buscar dominios por lotes, hacer busquedas masivas y acelerar investigaciones de nombres.",
     footerAbout: "Sobre nosotros",
     footerPrivacy: "Privacidad",
@@ -194,7 +196,7 @@ function renderIndexTemplate(template, lang, req) {
     featureList: [
       "Bulk domain availability checks",
       "Multiple TLD selection",
-      "Local recent and saved searches",
+      "Local saved domains, recent searches and saved searches",
       "Available-only result filtering"
     ]
   };
@@ -225,6 +227,7 @@ function renderIndexTemplate(template, lang, req) {
     __RESULTS_TITLE__: copy.resultsTitle,
     __AVAILABLE_ONLY__: copy.availableOnly,
     __READY__: copy.ready,
+    __SAVED_DOMAINS_TITLE__: copy.savedDomainsTitle,
     __SAVED_TITLE__: copy.savedTitle,
     __HISTORY_TITLE__: copy.historyTitle,
     __SEO_EYEBROW__: copy.seoEyebrow,
@@ -261,7 +264,7 @@ function getContentPage(lang, page) {
         body: [
           ["What lotdom.com does", "lotdom.com is a fast domain availability checker for people who need to research domain names in bulk. You can paste one name, many names, comma-separated ideas, or full domains, then select the extensions you want to compare."],
           ["Who it is for", "lotdom.com is designed for founders, creators, marketers, agencies, domain researchers and anyone building a shortlist of brand names. The goal is to make bulk domain search, batch domain checking and naming research simple, fast and easy to repeat."],
-          ["How it checks domains", "lotdom.com uses public RDAP data and DNS fallback signals to classify domains as available, taken or uncertain. Your selected extensions, result filter, recent searches and saved searches are stored locally in your browser to make repeat research easier. Recent searches can be deleted individually, while saved searches stay above the recent list."],
+          ["How it checks domains", "lotdom.com uses public RDAP data and DNS fallback signals to classify domains as available, taken or uncertain. Your selected extensions, result filter, saved domains, recent searches and saved searches are stored locally in your browser to make repeat research easier. Recent searches and saved domains can be deleted individually, while saved searches stay above the recent list."],
           ["Why it exists", "lotdom.com focuses on speed, clarity and repeatable domain research. It helps you move from a raw list of name ideas to a cleaner shortlist of available domains without opening many registrar tabs."]
         ]
       },
@@ -272,8 +275,8 @@ function getContentPage(lang, page) {
         body: [
           ["Last updated", updated],
           ["Controller", `The responsible operator of lotdom.com is ${legalOwner.name}, RUT ${legalOwner.rut}, with address at ${legalOwner.address}. Contact phone: ${legalOwner.phone}.`],
-          ["Data processed", "The tool may process the domain names you submit, technical request data such as IP address, browser and server logs, and local preferences stored in your browser. Recent searches and saved searches are stored in localStorage on your device unless a future account feature is added."],
-          ["Purpose", "Data is used to provide the domain availability checker, maintain security, prevent abuse, improve reliability and remember local preferences such as selected TLDs, language, filters, recent searches and saved searches."],
+          ["Data processed", "The tool may process the domain names you submit, technical request data such as IP address, browser and server logs, and local preferences stored in your browser. Saved domains, recent searches and saved searches are stored in localStorage on your device unless a future account feature is added."],
+          ["Purpose", "Data is used to provide the domain availability checker, maintain security, prevent abuse, improve reliability and remember local preferences such as selected TLDs, language, filters, saved domains, recent searches and saved searches."],
           ["Legal basis", "Processing is based on the user's request to use the tool, legitimate interest in operating and securing the website, and applicable privacy rules, including Chilean personal data regulations where relevant."],
           ["Third-party services", "Domain checks may be sent to public RDAP registry services and DNS infrastructure. These services are necessary to verify availability and may receive the queried domain name and standard technical request data."],
           ["Retention", "Local storage remains in your browser until you clear it. Server logs, if enabled by the hosting provider, should be retained only for operational, security and legal purposes for a reasonable period."],
@@ -288,9 +291,9 @@ function getContentPage(lang, page) {
         body: [
           ["Last updated", updated],
           ["What cookies are", "Cookies and similar browser storage technologies allow a website to remember information on your device, such as preferences, settings or usage choices."],
-          ["What this site uses", "This tool currently relies on localStorage to remember selected domain extensions, the available-only filter, recent searches and saved searches. These are functional preferences needed to make the tool easier to use."],
+          ["What this site uses", "This tool currently relies on localStorage to remember selected domain extensions, the available-only filter, saved domains, recent searches and saved searches. These are functional preferences needed to make the tool easier to use."],
           ["Analytics and advertising", "The current app does not require advertising cookies or analytics cookies to function. If analytics, ads or affiliate tracking are added later, this policy should be updated and a consent mechanism should be added where required."],
-          ["How to control storage", "You can delete recent searches individually, remove saved searches one by one, or clear localStorage, cookies and site data from your browser settings. Clearing site data will remove selected TLDs, filters, recent searches and saved searches on your device."],
+          ["How to control storage", "You can delete recent searches individually, remove saved domains or saved searches one by one, or clear localStorage, cookies and site data from your browser settings. Clearing site data will remove selected TLDs, filters, saved domains, recent searches and saved searches on your device."],
           ["Operator", `${legalOwner.name}, RUT ${legalOwner.rut}, ${legalOwner.address}. Phone: ${legalOwner.phone}.`]
         ]
       },
@@ -317,7 +320,7 @@ function getContentPage(lang, page) {
         body: [
           ["Que hace lotdom.com", "lotdom.com es un buscador de dominios por lotes para personas que necesitan investigar muchas ideas de nombres rapidamente. Puedes pegar un nombre, una lista masiva, ideas separadas por comas o dominios completos, y comparar varias terminaciones."],
           ["Para quien es", "lotdom.com esta pensado para fundadores, emprendedores, marketers, agencias, creadores e investigadores de dominios. Sirve como verificador de dominios masivo, comprobador por lotes y bulk domain checker cuando quieres revisar muchas alternativas sin hacerlo una por una."],
-          ["Como verifica dominios", "lotdom.com usa datos publicos RDAP y senales DNS de respaldo para clasificar dominios como disponibles, ocupados o inciertos. Tus terminaciones seleccionadas, filtros, busquedas recientes y busquedas guardadas se almacenan localmente en tu navegador. Las recientes pueden borrarse una por una y las guardadas quedan encima del historial reciente."],
+          ["Como verifica dominios", "lotdom.com usa datos publicos RDAP y senales DNS de respaldo para clasificar dominios como disponibles, ocupados o inciertos. Tus terminaciones seleccionadas, filtros, dominios guardados, busquedas recientes y busquedas guardadas se almacenan localmente en tu navegador. Las recientes y los dominios guardados pueden borrarse una por una, y las busquedas guardadas quedan encima del historial reciente."],
           ["Por que existe", "lotdom.com prioriza velocidad, claridad y un flujo repetible de investigacion de dominios. Ayuda a pasar de una lista de ideas de nombres a una seleccion mas clara de dominios disponibles sin abrir muchos registradores."]
         ]
       },
@@ -328,8 +331,8 @@ function getContentPage(lang, page) {
         body: [
           ["Ultima actualizacion", updated],
           ["Responsable", `El responsable de lotdom.com es ${legalOwner.name}, RUT ${legalOwner.rut}, con domicilio en ${legalOwner.address}. Telefono de contacto: ${legalOwner.phone}.`],
-          ["Datos tratados", "La herramienta puede tratar los dominios o nombres que ingresas, datos tecnicos de solicitud como direccion IP, navegador y registros del servidor, y preferencias locales guardadas en tu navegador. Las busquedas recientes y guardadas se almacenan en localStorage en tu dispositivo."],
-          ["Finalidad", "Los datos se usan para prestar la herramienta de verificacion de dominios, mantener seguridad, prevenir abuso, mejorar estabilidad y recordar preferencias como TLDs seleccionados, idioma, filtros, busquedas recientes y busquedas guardadas."],
+          ["Datos tratados", "La herramienta puede tratar los dominios o nombres que ingresas, datos tecnicos de solicitud como direccion IP, navegador y registros del servidor, y preferencias locales guardadas en tu navegador. Los dominios guardados, busquedas recientes y busquedas guardadas se almacenan en localStorage en tu dispositivo."],
+          ["Finalidad", "Los datos se usan para prestar la herramienta de verificacion de dominios, mantener seguridad, prevenir abuso, mejorar estabilidad y recordar preferencias como TLDs seleccionados, idioma, filtros, dominios guardados, busquedas recientes y busquedas guardadas."],
           ["Base y normativa", "El tratamiento se basa en la solicitud del usuario al usar la herramienta, el interes legitimo de operar y proteger el sitio, y la normativa aplicable sobre datos personales en Chile, incluyendo la Ley 19.628 y sus modificaciones cuando corresponda."],
           ["Servicios de terceros", "Las consultas de disponibilidad pueden enviarse a servicios RDAP publicos de registros y a infraestructura DNS. Estos servicios son necesarios para verificar dominios y pueden recibir el dominio consultado y datos tecnicos normales de la solicitud."],
           ["Conservacion", "Los datos en localStorage permanecen en tu navegador hasta que los elimines. Los registros del servidor, si el hosting los mantiene, deberian conservarse solo por motivos operativos, de seguridad o legales durante un plazo razonable."],
@@ -344,9 +347,9 @@ function getContentPage(lang, page) {
         body: [
           ["Ultima actualizacion", updated],
           ["Que son las cookies", "Las cookies y tecnologias similares permiten que un sitio recuerde informacion en tu navegador, como preferencias, configuraciones o decisiones de uso."],
-          ["Que usa este sitio", "Actualmente la herramienta usa localStorage para recordar terminaciones de dominio seleccionadas, el filtro de solo disponibles, busquedas recientes y busquedas guardadas. Son preferencias funcionales para facilitar busquedas por lotes, masivas o bulk."],
+          ["Que usa este sitio", "Actualmente la herramienta usa localStorage para recordar terminaciones de dominio seleccionadas, el filtro de solo disponibles, dominios guardados, busquedas recientes y busquedas guardadas. Son preferencias funcionales para facilitar busquedas por lotes, masivas o bulk."],
           ["Analitica y publicidad", "La app actual no necesita cookies publicitarias ni de analitica para funcionar. Si se agregan analiticas, anuncios o tracking de afiliados en el futuro, esta politica deberia actualizarse y agregarse consentimiento cuando sea necesario."],
-          ["Como controlar el almacenamiento", "Puedes borrar busquedas recientes una por una, eliminar busquedas guardadas individualmente o borrar localStorage, cookies y datos del sitio desde la configuracion de tu navegador. Al hacerlo se eliminaran TLDs seleccionados, filtros, busquedas recientes y busquedas guardadas en tu dispositivo."],
+          ["Como controlar el almacenamiento", "Puedes borrar busquedas recientes una por una, eliminar dominios guardados o busquedas guardadas individualmente, o borrar localStorage, cookies y datos del sitio desde la configuracion de tu navegador. Al hacerlo se eliminaran TLDs seleccionados, filtros, dominios guardados, busquedas recientes y busquedas guardadas en tu dispositivo."],
           ["Responsable", `${legalOwner.name}, RUT ${legalOwner.rut}, ${legalOwner.address}. Telefono: ${legalOwner.phone}.`]
         ]
       },

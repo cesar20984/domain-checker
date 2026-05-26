@@ -43,13 +43,14 @@ const I18N = {
     resultsTitle: "Results",
     availableOnly: "Only available",
     ready: "Ready",
+    savedDomainsTitle: "Saved domains",
     savedTitle: "Saved",
     historyTitle: "History",
     seoEyebrow: "Fast research workflow",
     seoHeading: "Find available domains from a bulk list",
     seoCopyOne: "This bulk domain availability checker is built for people who need to compare many domain name ideas quickly: founders naming a startup, marketers planning campaigns, agencies preparing client options, and domain researchers checking large lists.",
     seoCopyTwo: "Paste names on separate lines or separate them with commas. The tool automatically combines each name with your selected extensions, keeps your preferred TLDs in local storage, and lets you filter results to focus only on available domains.",
-    seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Recent searches stay in your browser, can be deleted one by one, and important searches can be saved above the recent list for easier repeat research.",
+    seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Recent searches stay in your browser, can be deleted one by one, individual domains can be saved from results, and important searches can be saved above the recent list for easier repeat research.",
     footerTagline: "lotdom.com is a simple bulk domain search tool for fast naming research.",
     footerAbout: "About",
     footerPrivacy: "Privacy",
@@ -59,8 +60,13 @@ const I18N = {
     domainPlural: "domains",
     noResults: "Results will appear here.",
     noAvailable: "No available domains in these results.",
+    emptySavedDomains: "No saved domains yet.",
     emptySaved: "No saved searches yet.",
     emptyHistory: "No searches yet.",
+    saveDomain: "Save",
+    saveDomainLabel: "Save domain",
+    savedDomain: "Saved",
+    deleteSavedDomain: "Delete domain",
     saveHistoryItem: "Save search",
     savedHistoryItem: "Saved",
     deleteHistoryItem: "Delete search",
@@ -94,13 +100,14 @@ const I18N = {
     resultsTitle: "Resultados",
     availableOnly: "Solo disponibles",
     ready: "Listo",
+    savedDomainsTitle: "Dominios guardados",
     savedTitle: "Guardadas",
     historyTitle: "Historial",
     seoEyebrow: "Flujo rapido de investigacion",
     seoHeading: "Encuentra dominios disponibles desde una lista por lotes",
     seoCopyOne: "Esta herramienta para verificar dominios por lotes esta pensada para personas que necesitan comparar muchas ideas rapido: fundadores buscando nombre para una startup, marketers preparando campanas, agencias creando opciones para clientes e investigadores de dominios.",
     seoCopyTwo: "Puedes usarla como buscador masivo de dominios, comprobador por lotes o bulk domain checker. Pega nombres en lineas separadas o separados por comas, y la herramienta combina cada nombre con las terminaciones seleccionadas.",
-    seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto. Las busquedas recientes se guardan en tu navegador, pueden borrarse una por una y las mas importantes se pueden guardar encima del historial reciente.",
+    seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto. Las busquedas recientes se guardan en tu navegador, pueden borrarse una por una, los dominios individuales pueden guardarse desde los resultados y las busquedas importantes se pueden guardar encima del historial reciente.",
     footerTagline: "lotdom.com es una herramienta simple para buscar dominios por lotes, hacer busquedas masivas y acelerar investigaciones de nombres.",
     footerAbout: "Sobre nosotros",
     footerPrivacy: "Privacidad",
@@ -110,8 +117,13 @@ const I18N = {
     domainPlural: "dominios",
     noResults: "Los resultados apareceran aqui.",
     noAvailable: "No hay dominios disponibles en estos resultados.",
+    emptySavedDomains: "Sin dominios guardados.",
     emptySaved: "Sin busquedas guardadas.",
     emptyHistory: "Sin busquedas todavia.",
+    saveDomain: "Guardar",
+    saveDomainLabel: "Guardar dominio",
+    savedDomain: "Guardado",
+    deleteSavedDomain: "Borrar dominio",
     saveHistoryItem: "Guardar busqueda",
     savedHistoryItem: "Guardada",
     deleteHistoryItem: "Borrar busqueda",
@@ -130,6 +142,7 @@ const storageKeys = {
   tlds: "domainChecker:selectedTlds",
   history: "domainChecker:history",
   savedSearches: "domainChecker:savedSearches",
+  savedDomains: "domainChecker:savedDomains",
   availableOnly: "domainChecker:availableOnly"
 };
 
@@ -139,6 +152,7 @@ const state = {
   availableOnly: loadAvailableOnly(),
   history: loadHistory(),
   savedSearches: loadSavedSearches(),
+  savedDomains: loadSavedDomains(),
   results: []
 };
 
@@ -153,6 +167,8 @@ const elements = {
   languageSelect: document.querySelector("#languageSelect"),
   clearHistoryButton: document.querySelector("#clearHistoryButton"),
   results: document.querySelector("#results"),
+  savedDomains: document.querySelector("#savedDomains"),
+  savedDomainsCount: document.querySelector("#savedDomainsCount"),
   savedSearches: document.querySelector("#savedSearches"),
   savedCount: document.querySelector("#savedCount"),
   history: document.querySelector("#history"),
@@ -190,6 +206,14 @@ function loadSavedSearches() {
   return [];
 }
 
+function loadSavedDomains() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(storageKeys.savedDomains));
+    return Array.isArray(stored) ? stored : [];
+  } catch {}
+  return [];
+}
+
 function loadAvailableOnly() {
   return localStorage.getItem(storageKeys.availableOnly) === "true";
 }
@@ -208,6 +232,10 @@ function saveHistory() {
 
 function saveSavedSearches() {
   localStorage.setItem(storageKeys.savedSearches, JSON.stringify(state.savedSearches));
+}
+
+function saveSavedDomains() {
+  localStorage.setItem(storageKeys.savedDomains, JSON.stringify(state.savedDomains));
 }
 
 function t(key) {
@@ -309,16 +337,39 @@ function renderResults() {
   elements.results.innerHTML = visibleResults.map((result) => `
     <div class="result-row">
       <span class="domain">${escapeHtml(result.domain)}</span>
-      <span class="badge ${result.status}" title="${escapeHtml(result.detail || "")}">${escapeHtml(getStatusLabel(result.status))}</span>
+      <span class="result-actions">
+        <span class="badge ${result.status}" title="${escapeHtml(result.detail || "")}">${escapeHtml(getStatusLabel(result.status))}</span>
+        <button class="save-domain" type="button" data-domain="${escapeHtml(result.domain)}" aria-label="${escapeHtml(t("saveDomainLabel"))}" title="${escapeHtml(t("saveDomainLabel"))}" ${isDomainSaved(result.domain) ? "disabled" : ""}>${escapeHtml(isDomainSaved(result.domain) ? t("savedDomain") : t("saveDomain"))}</button>
+      </span>
     </div>
   `).join("");
 }
 
 function renderHistory() {
+  elements.savedDomainsCount.textContent = state.savedDomains.length;
   elements.savedCount.textContent = state.savedSearches.length;
   elements.historyCount.textContent = state.history.length;
+  elements.savedDomains.innerHTML = renderSavedDomains();
   elements.savedSearches.innerHTML = renderSearchItems(state.savedSearches, "saved", t("emptySaved"));
   elements.history.innerHTML = renderSearchItems(state.history, "history", t("emptyHistory"));
+}
+
+function renderSavedDomains() {
+  if (!state.savedDomains.length) return `<div class="empty">${escapeHtml(t("emptySavedDomains"))}</div>`;
+
+  return state.savedDomains.map((entry, index) => `
+    <div class="history-item">
+      <button class="domain-restore" type="button" data-index="${index}">
+        <span class="history-meta">
+          <span class="history-title">${escapeHtml(entry.domain)}</span>
+          <span class="history-subtitle">${escapeHtml(getStatusLabel(entry.status))} - ${escapeHtml(entry.date)}</span>
+        </span>
+      </button>
+      <span class="history-actions">
+        <button class="history-delete" type="button" data-list="domains" data-index="${index}" aria-label="${escapeHtml(t("deleteSavedDomain"))}" title="${escapeHtml(t("deleteSavedDomain"))}">x</button>
+      </span>
+    </div>
+  `).join("");
 }
 
 function renderSearchItems(entries, listName, emptyText) {
@@ -402,6 +453,10 @@ function isSearchSaved(entry) {
   return state.savedSearches.some((savedEntry) => getSearchKey(savedEntry) === key);
 }
 
+function isDomainSaved(domain) {
+  return state.savedDomains.some((entry) => entry.domain === domain);
+}
+
 function getSearchList(listName) {
   return listName === "saved" ? state.savedSearches : state.history;
 }
@@ -410,6 +465,31 @@ function saveSearch(entry) {
   if (isSearchSaved(entry)) return;
   state.savedSearches = [{ ...entry }, ...state.savedSearches].slice(0, 30);
   saveSavedSearches();
+  renderHistory();
+}
+
+function saveDomain(result) {
+  if (isDomainSaved(result.domain)) return;
+  state.savedDomains = [{
+    domain: result.domain,
+    status: result.status,
+    detail: result.detail || "",
+    date: new Intl.DateTimeFormat(t("historyDateLocale"), {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date())
+  }, ...state.savedDomains].slice(0, 50);
+  saveSavedDomains();
+  renderResults();
+  renderHistory();
+}
+
+function deleteSavedDomain(index) {
+  state.savedDomains.splice(index, 1);
+  saveSavedDomains();
+  renderResults();
   renderHistory();
 }
 
@@ -428,6 +508,21 @@ function restoreSearch(entry) {
   elements.domainInput.value = entry.input;
   state.selectedTlds = entry.tlds;
   state.results = entry.results || [];
+  saveSelectedTlds();
+  renderTlds();
+  renderPreviewCount();
+  renderResults();
+  elements.statusText.textContent = `${state.results.length} ${t("restored")}`;
+}
+
+function restoreDomain(entry) {
+  elements.domainInput.value = entry.domain;
+  state.selectedTlds = [entry.domain.split(".").pop()];
+  state.results = [{
+    domain: entry.domain,
+    status: entry.status,
+    detail: entry.detail || ""
+  }];
   saveSelectedTlds();
   renderTlds();
   renderPreviewCount();
@@ -512,12 +607,37 @@ elements.clearHistoryButton.addEventListener("click", () => {
   saveHistory();
   renderHistory();
 });
+elements.results.addEventListener("click", (event) => {
+  const saveButton = event.target.closest(".save-domain");
+  if (!saveButton) return;
+  const result = state.results.find((item) => item.domain === saveButton.dataset.domain);
+  if (result) saveDomain(result);
+});
+elements.savedDomains.addEventListener("click", (event) => {
+  handleSavedDomainsClick(event);
+});
 elements.history.addEventListener("click", (event) => {
   handleSearchListClick(event);
 });
 elements.savedSearches.addEventListener("click", (event) => {
   handleSearchListClick(event);
 });
+
+function handleSavedDomainsClick(event) {
+  const deleteButton = event.target.closest(".history-delete");
+  if (deleteButton) {
+    const index = Number(deleteButton.dataset.index);
+    if (!Number.isInteger(index)) return;
+    deleteSavedDomain(index);
+    return;
+  }
+
+  const item = event.target.closest(".domain-restore");
+  if (!item) return;
+  const entry = state.savedDomains[Number(item.dataset.index)];
+  if (!entry) return;
+  restoreDomain(entry);
+}
 
 function handleSearchListClick(event) {
   const saveButton = event.target.closest(".history-save");
