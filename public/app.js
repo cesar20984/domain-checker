@@ -41,6 +41,8 @@ const I18N = {
     checking: "Checking...",
     clearButton: "Clear",
     resultsTitle: "Results",
+    resultTldLabel: "Extension",
+    allExtensions: "All",
     availableOnly: "Only available",
     ready: "Ready",
     savedDomainsTitle: "Saved domains",
@@ -60,6 +62,7 @@ const I18N = {
     domainPlural: "domains",
     noResults: "Results will appear here.",
     noAvailable: "No available domains in these results.",
+    noResultsForFilter: "No results match these filters.",
     emptySavedDomains: "No saved domains yet.",
     emptySaved: "No saved searches yet.",
     emptyHistory: "No searches yet.",
@@ -98,6 +101,8 @@ const I18N = {
     checking: "Buscando...",
     clearButton: "Vaciar",
     resultsTitle: "Resultados",
+    resultTldLabel: "Terminacion",
+    allExtensions: "Todas",
     availableOnly: "Solo disponibles",
     ready: "Listo",
     savedDomainsTitle: "Dominios guardados",
@@ -117,6 +122,7 @@ const I18N = {
     domainPlural: "dominios",
     noResults: "Los resultados apareceran aqui.",
     noAvailable: "No hay dominios disponibles en estos resultados.",
+    noResultsForFilter: "No hay resultados que coincidan con estos filtros.",
     emptySavedDomains: "Sin dominios guardados.",
     emptySaved: "Sin busquedas guardadas.",
     emptyHistory: "Sin busquedas todavia.",
@@ -143,13 +149,15 @@ const storageKeys = {
   history: "domainChecker:history",
   savedSearches: "domainChecker:savedSearches",
   savedDomains: "domainChecker:savedDomains",
-  availableOnly: "domainChecker:availableOnly"
+  availableOnly: "domainChecker:availableOnly",
+  resultTld: "domainChecker:resultTld"
 };
 
 const state = {
   language: window.__INITIAL_LANG__ || (location.pathname.startsWith("/es") ? "es" : "en"),
   selectedTlds: loadSelectedTlds(),
   availableOnly: loadAvailableOnly(),
+  resultTld: loadResultTld(),
   history: loadHistory(),
   savedSearches: loadSavedSearches(),
   savedDomains: loadSavedDomains(),
@@ -164,6 +172,7 @@ const elements = {
   clearButton: document.querySelector("#clearButton"),
   resetTldsButton: document.querySelector("#resetTldsButton"),
   availableOnlyToggle: document.querySelector("#availableOnlyToggle"),
+  resultTldFilter: document.querySelector("#resultTldFilter"),
   languageSelect: document.querySelector("#languageSelect"),
   clearHistoryButton: document.querySelector("#clearHistoryButton"),
   results: document.querySelector("#results"),
@@ -218,12 +227,20 @@ function loadAvailableOnly() {
   return localStorage.getItem(storageKeys.availableOnly) === "true";
 }
 
+function loadResultTld() {
+  return localStorage.getItem(storageKeys.resultTld) || "all";
+}
+
 function saveSelectedTlds() {
   localStorage.setItem(storageKeys.tlds, JSON.stringify(state.selectedTlds));
 }
 
 function saveAvailableOnly() {
   localStorage.setItem(storageKeys.availableOnly, String(state.availableOnly));
+}
+
+function saveResultTld() {
+  localStorage.setItem(storageKeys.resultTld, state.resultTld);
 }
 
 function saveHistory() {
@@ -319,18 +336,47 @@ function renderPreviewCount() {
   elements.previewCount.textContent = `${count} ${count === 1 ? t("domainSingular") : t("domainPlural")}`;
 }
 
+function getDomainTld(domain) {
+  return String(domain || "").split(".").pop();
+}
+
+function getResultTlds() {
+  return [...new Set(state.results.map((result) => getDomainTld(result.domain)).filter(Boolean))].sort();
+}
+
+function syncResultTldFilter() {
+  const tlds = getResultTlds();
+  const hasSelectedTld = state.resultTld === "all" || tlds.includes(state.resultTld);
+  if (!hasSelectedTld) {
+    state.resultTld = "all";
+    saveResultTld();
+  }
+
+  elements.resultTldFilter.innerHTML = [
+    `<option value="all">${escapeHtml(t("allExtensions"))}</option>`,
+    ...tlds.map((tld) => `<option value="${escapeHtml(tld)}">.${escapeHtml(tld)}</option>`)
+  ].join("");
+  elements.resultTldFilter.value = state.resultTld;
+  elements.resultTldFilter.disabled = !tlds.length;
+}
+
 function renderResults() {
+  syncResultTldFilter();
+
   if (!state.results.length) {
     elements.results.innerHTML = `<div class="empty">${escapeHtml(t("noResults"))}</div>`;
     return;
   }
 
-  const visibleResults = state.availableOnly
+  const statusFilteredResults = state.availableOnly
     ? state.results.filter((result) => result.status === "available")
     : state.results;
+  const visibleResults = state.resultTld === "all"
+    ? statusFilteredResults
+    : statusFilteredResults.filter((result) => getDomainTld(result.domain) === state.resultTld);
 
   if (!visibleResults.length) {
-    elements.results.innerHTML = `<div class="empty">${escapeHtml(t("noAvailable"))}</div>`;
+    elements.results.innerHTML = `<div class="empty">${escapeHtml(state.availableOnly && state.resultTld === "all" ? t("noAvailable") : t("noResultsForFilter"))}</div>`;
     return;
   }
 
@@ -583,6 +629,11 @@ elements.resetTldsButton.addEventListener("click", () => {
 elements.availableOnlyToggle.addEventListener("change", () => {
   state.availableOnly = elements.availableOnlyToggle.checked;
   saveAvailableOnly();
+  renderResults();
+});
+elements.resultTldFilter.addEventListener("change", () => {
+  state.resultTld = elements.resultTldFilter.value;
+  saveResultTld();
   renderResults();
 });
 elements.languageSelect.addEventListener("change", () => {

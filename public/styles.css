@@ -300,6 +300,23 @@ textarea:focus {
 
 .result-tools {
   justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+
+.filter-select select {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #fff;
+  color: var(--ink);
 }
 
 .toggle {
