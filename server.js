@@ -55,6 +55,7 @@ const pageCopy = {
     seoCopyTwo: "Paste names on separate lines or separate them with commas. The tool automatically combines each name with your selected extensions, keeps your preferred TLDs in local storage, and lets you filter results to focus only on available domains.",
     seoCopyThree: "The checker uses RDAP data and DNS fallback signals to verify whether domains are registered, available, or uncertain. Recent searches stay in your browser, can be deleted one by one, individual domains can be saved from results, and important searches can be saved above the recent list for easier repeat research.",
     footerTagline: "lotdom.com is a simple bulk domain search tool for fast naming research.",
+    footerCredit: "Website created by",
     footerAbout: "About",
     footerPrivacy: "Privacy",
     footerCookies: "Cookies",
@@ -93,6 +94,7 @@ const pageCopy = {
     seoCopyTwo: "Puedes usarla como buscador masivo de dominios, comprobador por lotes o bulk domain checker. Pega nombres en lineas separadas o separados por comas, y la herramienta combina cada nombre con las terminaciones seleccionadas.",
     seoCopyThree: "El verificador guarda tus TLDs preferidos en localStorage, permite filtrar solo dominios disponibles y usa datos RDAP con senales DNS de respaldo para indicar si un dominio esta registrado, disponible o incierto. Las busquedas recientes se guardan en tu navegador, pueden borrarse una por una, los dominios individuales pueden guardarse desde los resultados y las busquedas importantes se pueden guardar encima del historial reciente.",
     footerTagline: "lotdom.com es una herramienta simple para buscar dominios por lotes, hacer busquedas masivas y acelerar investigaciones de nombres.",
+    footerCredit: "Página web creada por",
     footerAbout: "Sobre nosotros",
     footerPrivacy: "Privacidad",
     footerCookies: "Cookies",
@@ -242,6 +244,7 @@ function renderIndexTemplate(template, lang, req) {
     __SEO_COPY_TWO__: copy.seoCopyTwo,
     __SEO_COPY_THREE__: copy.seoCopyThree,
     __FOOTER_TAGLINE__: copy.footerTagline,
+    __FOOTER_CREDIT__: copy.footerCredit,
     __FOOTER_ABOUT__: copy.footerAbout,
     __FOOTER_PRIVACY__: copy.footerPrivacy,
     __FOOTER_COOKIES__: copy.footerCookies,
@@ -457,7 +460,10 @@ function renderContentPage(route, req) {
     </main>
     <footer class="site-footer">
       <div class="footer-inner">
-        <span>${escapeHtml(copy.footerTagline)}</span>
+        <div class="footer-copy">
+          <span>${escapeHtml(copy.footerTagline)}</span>
+          <span>${escapeHtml(copy.footerCredit)} <a href="https://sitiova.cl" target="_blank" rel="noopener noreferrer" style="color: #20dff2; font-weight: 800;">Sitiova</a></span>
+        </div>
         <nav aria-label="Footer">
           <a href="/">English</a>
           <a href="/es">Español</a>

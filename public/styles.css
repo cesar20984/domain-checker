@@ -557,6 +557,11 @@ textarea:focus {
   padding: 18px 0 28px;
 }
 
+.footer-copy {
+  display: grid;
+  gap: 6px;
+}
+
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
